@@ -59,7 +59,7 @@ const seed = async () => {
     if (reviewsDocs.length >= 10000 || i >= 10000000 - 1) {
 
       await Product.collection.insert(productDocs);
-      await Reviews.collection.insertMany(reviewsDocs);
+      await Reviews.collection.insert(reviewsDocs);
 
 
       reviewsDocs = [];
