@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
 mongoose.connect('mongodb://localhost/sdc', {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -33,7 +34,8 @@ const reviewsSchema = new mongoose.Schema({
       quality_rating: Number,
       would_recommend: Boolean,
       verified_purchaser: Boolean,
-      images: [String]
+      images: [String],
+      createdAt: String
     }
   ]
 });
