@@ -1,111 +1,77 @@
-const Sequelize = require('sequelize');
-const db = require('./index.js');
-const Review = require('../database/models.js').Review
-const Photo = require('../database/models.js').Photo
-const titles = require('./fake_data/titles.js');
-const images = require('./fake_data/images.js');
-
-const { uniqueNamesGenerator, adjectives, colors, animals, names } = require('unique-names-generator');
+const { Product, Reviews } = require('./index.js');
 const faker = require('faker');
+const { dateFaker } = require('date-faker');
 
-var username = function () {
-  return uniqueNamesGenerator({
-  dictionaries: [adjectives, animals], // colors can be omitted here as not used
-  separator: '_',
-  length: 2
- });
-}
+let productDocs = [];
+let reviewsDocs = [];
 
-// const body = function () {
-//   return faker.lorem.paragraphs()
-// }
+const getRating = () => {
+  let ratings = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  return ratings[Math.floor(Math.random() * 10)];
+};
 
-const percentage = function (trend) {
-  generally = {
-    low: [20, 20, 40, 40, 40, 40, 60, 80, 100],
-    mid: [20, 40, 60, 60, 60, 80, 80, 80, 80, 80, 100, 100],
-    high : [40, 60, 80, 80, 100, 100]
-  }
-  let length = generally[trend].length
-  return generally[trend][Math.floor(Math.random() * length)];
-}
+let imageCountOptions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1];
+let reviewId = 1;
 
-const helpCnt = function () {
-  var stars = [0, 0, 0, 1, 2];
-  return stars[Math.floor(Math.random() * 5)]
-}
 
-const getOverall = function (quality, value) {
-  total = ((quality + value) / 2) / 10
-  if (total % 2 !== 0) {
-    total++
-  }
-  return total * 10;
-}
+const seed = async () => {
+  for (let i = 0; i < 10000000; i++) {
 
-const recommend = function (overall) {
-  var chance = Math.floor(Math.random() * 5);
-  if (chance > 2) {
-    return overall > 70 ? true : false;
-  }
-  return null;
-}
+    //create product document
+    let newProduct = {
+      productId: i,
+      price: '7.99',
+      name: faker.lorem.words(),
+      description: faker.lorem.paragraph()
+    };
+    //create reviews document for that product
+    let reviewCount = Math.floor(Math.random() * 11) + 1;
+    let newReviews = {
+      productId: i,
+      reviews: []
+    }
+    for (let j = 0; j < reviewCount; j++, reviewId++) {
+      let imageCount = imageCountOptions[Math.floor(Math.random() * 17)];
+      let vRating = getRating();
+      let qRating = getRating();
+      let oRating = (vRating + qRating) / 2;
+      let monthOffset = Math.floor(Math.random() * 4) * -1;
+      let dayOffset = Math.floor(Math.random() * 25) * -1;
+      dateFaker.addAndReset({month: monthOffset, day: dayOffset});
 
-const getBody = function () {
-  let x = Math.floor(Math.random() * 5) + 1
-  var body = '';
-  for (i = 0; i < x; i++) {
-    body += faker.commerce.productDescription() + ' ';
-  }
-  return body;
-}
+      newReviews.reviews.push({
+        reviewId: reviewId,
+        title: faker.lorem.words(),
+        body: faker.lorem.paragraph(),
+        helpful_count: Math.floor(Math.random() * 20),
+        value_rating: vRating,
+        quality_rating: qRating,
+        overall_rating: oRating,
+        would_recommend: Math.random() > 0.5 ? true : false,
+        verified_purchaser: Math.random() > 0.7 ? true : false,
+        images: [],
+        createdAt: new Date()
+      });
 
-const review = function (i, trend) {
-  let quality = percentage(trend);
-  let value = percentage(trend);
-  let overall = getOverall(quality, value);
-  return {
-    title: titles(),
-    body: getBody(),
-    helpful_count: helpCnt(),
-    username: faker.name.firstName(),
-    product_id: i,
-    overall_rating: overall,
-    value_rating: value,
-    quality_rating: quality,
-    would_recommend: recommend(overall),
-    verified_purchaser: Math.floor(Math.random() * 3) > 1 ? true : false
-  }
-}
+      for (let k = 0; k < imageCount; k++) {
+        newReviews.reviews[newReviews.reviews.length - 1].images.push(`https://loremflickr.com/320/240?${faker.random.word()}`);
+      }
+    }
 
-const getTrend = function () {
-  let trends = ['low', 'mid', 'mid', 'mid', 'high', 'high'];
-  return trends[Math.floor(Math.random() * 6)];
-}
+    reviewsDocs.push(newReviews);
+    productDocs.push(newProduct);
 
-var photo = function (i) {
-  return {
-    url: images(),
-    reviewId: i
+    if (reviewsDocs.length >= 10000 || i >= 10000000 - 1) {
+
+      await Product.collection.insertMany(productDocs);
+      await Reviews.collection.insertMany(reviewsDocs);
+
+
+      reviewsDocs = [];
+      productDocs = [];
+    }
+
+
   }
 }
-
-
-reviewCnt = 0;
-
-for (let i = 0; i <= 5; i++) {
-  var maximum = Math.floor(Math.random() * 30) + 10
-  let trend = getTrend()
-  for (let j = 0; j < maximum; j++) {
-    var currentReview = review(i, trend)
-    Review.create(currentReview)
-    reviewCnt++;
-  }
-}
-
-for (let i = 0; i < reviewCnt; i++) {
-  num = helpCnt()
-    for (let j = 0; j < num; j++) {
-      Photo.create(photo(i))
-  }
-}
+seed();
