@@ -1,5 +1,6 @@
 const { Product, Reviews } = require('./index.js');
 const faker = require('faker');
+const { dateFaker } = require('date-faker');
 
 let productDocs = [];
 let reviewsDocs = [];
@@ -24,7 +25,7 @@ const seed = async () => {
       description: faker.lorem.paragraph()
     };
     //create reviews document for that product
-    let reviewCount = Math.floor(Math.random() * 11);
+    let reviewCount = Math.floor(Math.random() * 11) + 1;
     let newReviews = {
       productId: i,
       reviews: []
@@ -34,6 +35,9 @@ const seed = async () => {
       let vRating = getRating();
       let qRating = getRating();
       let oRating = (vRating + qRating) / 2;
+      let monthOffset = Math.floor(Math.random() * 4) * -1;
+      let dayOffset = Math.floor(Math.random() * 25) * -1;
+      dateFaker.addAndReset({month: monthOffset, day: dayOffset});
 
       newReviews.reviews.push({
         reviewId: reviewId,
@@ -45,7 +49,8 @@ const seed = async () => {
         overall_rating: oRating,
         would_recommend: Math.random() > 0.5 ? true : false,
         verified_purchaser: Math.random() > 0.7 ? true : false,
-        images: []
+        images: [],
+        createdAt: new Date()
       });
 
       for (let k = 0; k < imageCount; k++) {
@@ -58,8 +63,8 @@ const seed = async () => {
 
     if (reviewsDocs.length >= 10000 || i >= 10000000 - 1) {
 
-      await Product.collection.insert(productDocs);
-      await Reviews.collection.insert(reviewsDocs);
+      await Product.collection.insertMany(productDocs);
+      await Reviews.collection.insertMany(reviewsDocs);
 
 
       reviewsDocs = [];
