@@ -14,14 +14,14 @@ db.once('open', () => {
 });
 
 const productSchema = new mongoose.Schema({
-  productId: Number,
+  productId: {type: Number, unique: true},
   name: String,
   price: String,
   description: String
 });
 
 const reviewsSchema = new mongoose.Schema({
-  productId: Number,
+  productId: {type: Number, unique: true},
   reviews: [
     {
       reviewId: Number,
