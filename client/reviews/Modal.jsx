@@ -65,7 +65,7 @@ const CloseBtn = styled.div`
   height: 22px;
   width: 22px;
   box-sizing: border-box;
-  background-image: url('http://54.87.234.227:8004/images/close.svg');
+  background-image: url('http://localhost:8004/images/close.svg');
   background-repeat: no-repeat;
   background-size: 23px 23px;
   background-position: -0.5px -0.5px;
@@ -96,7 +96,7 @@ const ArrowLeft = styled.button`
   width: 34px;
   height: 34px;
   cursor: pointer;
-  background-image: url("http://54.87.234.227:8004/images/arrow_left.svg");
+  background-image: url("http://localhost:8004/images/arrow_left.svg");
   background-repeat: no-repeat;
   background-size: 34px 34px;
   border: none;
@@ -113,7 +113,7 @@ const ArrowRight = styled.button`
   width: 34px;
   height: 34px;
   cursor: pointer;
-  background-image: url("http://54.87.234.227:8004/images/arrow_right.svg");
+  background-image: url("http://localhost:8004/images/arrow_right.svg");
   background-repeat: no-repeat;
   background-size: 34px 34px;
   border: none;
@@ -133,7 +133,7 @@ const Recommendation = styled.span`
   margin: 0 10px;
 `
 const Ratings = styled.div`
-  background: url("http://54.87.234.227:8004/images/stars_empty.svg");
+  background: url("http://localhost:8004/images/stars_empty.svg");
   width: 87px;
   height: 20px;
   display: inline-block;
@@ -145,7 +145,7 @@ const Ratings = styled.div`
 const Stars = styled.div`
   width: 0%;
   height: 20px;
-  background-image: url("http://54.87.234.227:8004/images/stars_full.svg");
+  background-image: url("http://localhost:8004/images/stars_full.svg");
   background-repeat: no-repeat;
   background-size: 87px 20px;
 `

@@ -1,3 +1,5 @@
 node_modules
 public/dist
 database/config.js
+newrelic.js
+newrelic_agent.log

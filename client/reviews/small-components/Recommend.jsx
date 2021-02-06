@@ -10,13 +10,13 @@ function Recommend({ recommend }) {
 
   if (recommend) {
     return (
-      <Container><img src="http://54.87.234.227:8004/images/check.svg" style={{ width: "22px", marginRight: "5px" }}></img> <strong> Would recommend</strong></Container>
+      <Container><img src="http://localhost:8004/images/check.svg" style={{ width: "22px", marginRight: "5px" }}></img> <strong> Would recommend</strong></Container>
     )
   } else if (recommend === null) {
     return null;
   } else if (!recommend) {
     return (
-      <Container><img src="http://54.87.234.227:8004/images/ex.svg" style={{ width: "22px", marginRight: "5px" }}></img><strong> Would not recommend</strong></Container>
+      <Container><img src="http://localhost:8004/images/ex.svg" style={{ width: "22px", marginRight: "5px" }}></img><strong> Would not recommend</strong></Container>
     )
   }
 

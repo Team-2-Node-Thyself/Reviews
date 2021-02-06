@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 const Ratings = styled.div `
-  background: url("http://54.87.234.227:8004/images/stars_empty.svg");
+  background: url("http://localhost:8004/images/stars_empty.svg");
   width: 87px;
   height: 17px;
   display: inline-block;
@@ -14,7 +14,7 @@ const Ratings = styled.div `
 const Stars = styled.div`
   width: 0%;
   height: 17px;
-  background-image: url("http://54.87.234.227:8004/images/stars_full.svg");
+  background-image: url("http://localhost:8004/images/stars_full.svg");
   background-repeat: no-repeat;
   background-size: 87px 16px;
 `

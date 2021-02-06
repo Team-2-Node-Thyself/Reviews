@@ -88,8 +88,8 @@ class Aside extends React.Component {
             <span>{this.review.helpful_count <= 0 ? "Did you find this review helpful?" : <Helpful helpful_count={ this.review.helpful_count}/>} </span>
             <Links>
             <Buttons>
-              <Button className="disabledCursor" onClick={() => this.helpful(this.review.id)} data-id={this.props.id}>Helpful</Button>
-              <Button onClick={() => this.notHelpful(this.review.id)} data-id={this.props.id}>Not helpful</Button>
+              <Button className="disabledCursor" onClick={() => this.helpful(this.review.reviewId)} data-id={this.props.id}>Helpful</Button>
+              <Button onClick={() => this.notHelpful(this.review.id)} data-id={this.props.reviewId}>Not helpful</Button>
             </Buttons>
             <ReportLink>Report review</ReportLink>
             </Links>
