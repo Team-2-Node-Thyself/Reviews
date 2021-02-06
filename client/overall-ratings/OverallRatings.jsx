@@ -37,7 +37,7 @@ const LargeText = styled.span`
 
 const Ratings = styled.div `
   margin-top: -5px;
-  background: url("http://54.87.234.227:8004/images/stars_empty.svg");
+  background: url("http://localhost:8004/images/stars_empty.svg");
   width: 115px;
   height: 35px;
   display: inline-block;
@@ -48,7 +48,7 @@ const Ratings = styled.div `
 const Stars = styled.div`
   width: 30%;
   height: 35px;
-  background-image: url("http://54.87.234.227:8004/images/stars_full.svg");
+  background-image: url("http://localhost:8004/images/stars_full.svg");
   background-repeat: no-repeat;
   background-size: 115px 35px;
 

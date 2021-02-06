@@ -107,45 +107,29 @@ class App extends React.Component {
   }
 
   getReviews(cb) {
-    axios.get('http://54.87.234.227:8004/products/0/reviews')
+    axios.get('http://localhost:8004/products/9999997/reviews')
       .then((reviews) => {
-        const reviewList = reviews.data;
+        const reviewList = reviews.data.reviews;
+        console.log(reviewList);
         this.setState({
           allReviews: reviewList,
           displayedReviews: reviewList,
           selectedReviews: reviewList
         }, () => {
           for (let i = 0; i < this.state.allReviews.length; i++) {
-            cb(reviewList[i].id, i)
+            cb(reviewList[i])
           }
         });
       })
   }
 
-  getImages(id, i) {
-    axios.get(`http://54.87.234.227:8004/products/${id}/images`)
-      .then((images) => {
-        var imagesArray = [];
-        if (images.data.length > 0) {
-          for (var image of images.data) {
-            imagesArray.push(image.url);
-          }
-        }
-        var newAllReviews = [...this.state.allReviews];
-        newAllReviews[i].images = imagesArray;
-        this.setState({
-          allReviews: newAllReviews,
-          displayedReviews: newAllReviews,
-          selectedReviews: newAllReviews
-        }, () => {
-          if (newAllReviews[i].images.length > 0) {
-            newAllReviews[i].images.forEach(image => {
-              this.images.push(image);
-              this.reviewsWithImages.push(newAllReviews[i])
-            })
-          }
-        })
-      })
+  getImages(review) {
+    if (review.images.length > 0) {
+      this.reviewsWithImages.push(review);
+      for (let i = 0; i < review.images.length; i++) {
+        this.images.push(review.images[i]);
+      }
+    }
   }
 
   helpful(id) {
@@ -159,7 +143,7 @@ class App extends React.Component {
       selectedReviews: reviews
     });
 
-    axios.patch(`http://54.87.234.227:8004/products/${id}/helpful`);
+    axios.patch(`http://localhost:8004/products/9999997/${id}/helpful`);
   }
 
   notHelpful(id) {
@@ -173,7 +157,7 @@ class App extends React.Component {
       selectedReviews: reviews
     });
 
-    axios.patch(`http://54.87.234.227:8004/products/${id}/not_helpful`);
+    axios.patch(`http://localhost:8004/products/9999997/${id}/not_helpful`);
   }
 
   filterByVerified() {
@@ -256,6 +240,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getReviews(this.getImages);
+    console.log('here');
   }
 
   render() {
