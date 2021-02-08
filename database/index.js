@@ -1,7 +1,8 @@
+const mongo_URI = require('./config.js').mongo_URI;
 const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
 
-mongoose.connect('mongodb://localhost/sdc', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect( mongo_URI || 'mongodb://localhost/sdc', {poolSize: 10, useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection;
 

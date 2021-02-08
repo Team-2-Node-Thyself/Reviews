@@ -1,4 +1,3 @@
-const newrelic = require('newrelic');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -15,13 +14,9 @@ app.use('/bundle', express.static('public/dist/bundle.js'));
 
 
 app.get('/products/:product_id/reviews', (req, res) => {
-  console.time('query');
-  Reviews.findOne({productId: req.params.product_id})
-    .then((data) => {
-      console.timeEnd('query');
-      return data;
-    })
-    .then(data => res.send(data));
+  Reviews.findOne({productId: req.params.product_id}).lean()
+    .then(data => res.status(200).send(data))
+    .catch(err => res.status(500).send(err));
 })
 
 app.patch('/products/:product_id/:review_id/helpful', (req, res) => {
